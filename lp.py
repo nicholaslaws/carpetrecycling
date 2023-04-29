@@ -21,11 +21,11 @@ def lp_solve(alpha, beta, gamma, layers):
     x = [[model.add_var(name=(layers[l].name + ', ' + layers[l].materials[m].name), var_type=BINARY) for m in M[l]] for l in L]
 
     # Objective function
-    model.obj = maximize(
-                    xsum(
-                        (alpha * layers[l].materials[m].rec + beta * layers[l].materials[m].proc_cost + gamma * layers[l].materials[m].mkt_value) * x[l][m] \
-                        for l in L for m in M[l]
-                    )
+    model.objective = maximize(
+                        xsum(
+                            (alpha * layers[l].materials[m].rec + beta * layers[l].materials[m].proc_cost + gamma * layers[l].materials[m].mkt_value) * x[l][m] \
+                            for l in L for m in M[l]
+                        )
                 )
     
     # Constraints

@@ -11,6 +11,7 @@ class Material:
         self.mkt_value = mkt_value
 
 class Layer:
-    def __init__(self, name: str, materials: list[Material]):
+    def __init__(self, name: str, materials: list[Material], prop: float):
         self.materials = materials
         self.name = name
+        self.prop = prop
