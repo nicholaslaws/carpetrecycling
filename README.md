@@ -18,8 +18,11 @@
     1. [Sub paragraph](#subparagraph1)
 3. [Another paragraph](#paragraph2)
 
-## This is the introduction <a name="introduction"></a>
-Some introduction text, formatted in heading 2 style
+## Introduction <a name="introduction"></a>
+
+The following repository contains a prototype of a decision mechanism for what materials 
+should be used in each layer of a proposed carpet design. The approach is to formulate
+this question as a Binary Integer Program.
 
 ## Some paragraph <a name="paragraph1"></a>
 The first paragraph text
