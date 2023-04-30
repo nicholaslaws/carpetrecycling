@@ -11,10 +11,10 @@ size = 1000
 # Functions
 
 def display(name):
-    with open("Processes.json") as myFile:
+    with open(name) as myFile:
         fileData = json.load(myFile)
-        print(fileData)
-display("Process 1")
+        print(tabulate(fileData))
+display("sample_carpet_design1.json")
 
 def addProcess(ProcessName):
     print("to be implemented")

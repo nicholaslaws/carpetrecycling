@@ -11,6 +11,7 @@ class Window(QtWidgets.QWidget):
     def initUI(self):
         # Get list of .json files
         files = [f for f in os.listdir() if f.endswith('.json')]
+        files.insert(0, "choose process json File...")
 
         pad = 25
         windH = 600
@@ -26,7 +27,7 @@ class Window(QtWidgets.QWidget):
         button.clicked.connect(self.button_clicked)
         button.setFixedHeight(buttH)
         button.setFixedWidth(buttL)
-        button.move((windL/4)-(buttL/2), ((windH-buttH)/2)+pad)
+        button.move(int((windL/4)-(buttL/2)), int(((windH-buttH)/2)+pad))
         button.setStyleSheet("background-color: lightblue;")
 
         # Create dropdown button
@@ -35,16 +36,16 @@ class Window(QtWidgets.QWidget):
         dropdown.setCurrentIndex(0)
         dropdown.setFixedWidth(buttL-(2*pad))
         dropdown.currentIndexChanged.connect(self.dropdown_selected)
-        dropdown.move(pad+((windL/4)-(buttL/2)), 2*pad)
+        dropdown.move(int(pad+((windL/4)-(buttL/2))), int(2*pad))
         dropdown.setStyleSheet("background-color: 21,150,150")
         self.dropdown = dropdown
 
         # Create text box
         self.text_box = QtWidgets.QTextEdit(self)
-        self.text_box.setFixedHeight(textH)
-        self.text_box.setFixedWidth(textL)
-        self.text_box.move(windL-pad-textL, pad)
-        self.text_box.setStyleSheet("background-color: white")
+        self.text_box.setFixedHeight(int(textH))
+        self.text_box.setFixedWidth(int(textL))
+        self.text_box.move(int(windL-pad-textL), int(pad))
+        self.text_box.setStyleSheet("background-color: 21,150,150")
 
         # Set window properties
         self.setWindowTitle('Harvard SEAS - Carpet Composition Optimization Algorithm')
