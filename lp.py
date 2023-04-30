@@ -1,5 +1,5 @@
 """
-    This file contains the description of the BIP in code
+    This file contains the description of the Binary Integer Program in code
 """
 
 from mip import Model, xsum, maximize, BINARY, OptimizationStatus
@@ -10,7 +10,7 @@ from mip import Model, xsum, maximize, BINARY, OptimizationStatus
 # Assume that `layers` is a list of given `Layer` objects with
 # an attribute being a list of `Material` objects called `materials`
 def lp_solve(alpha, beta, gamma, layers):
-    # Set up appropriate binary LP solver - will tune if necessary
+    # Set up appropriate binary LP solver
     model = Model("knapsack")
 
     # Iterables to make summation descriptions neat
@@ -35,15 +35,20 @@ def lp_solve(alpha, beta, gamma, layers):
     # Run optimization
     status = model.optimize()
 
+    result_str = ""
+
     # Print optimization results
     if status == OptimizationStatus.OPTIMAL:
-        print('optimal solution cost {} found'.format(model.objective_value))
+        #print('optimal solution cost {} found'.format(model.objective_value))
+        result_str += "Optimal solution cost {} found\n".format(model.objective_value)
     elif status == OptimizationStatus.FEASIBLE:
-        print('sol.cost {} found, best possible: {}'.format(model.objective_value, model.objective_bound))
+        result_str += 'sol.cost {} found, best possible: {}\n'.format(model.objective_value, model.objective_bound)
     elif status == OptimizationStatus.NO_SOLUTION_FOUND:
-        print('no feasible solution found, lower bound is: {}'.format(model.objective_bound))
+        result_str += 'No feasible solution found, lower bound is: {}\n'.format(model.objective_bound)
     if status == OptimizationStatus.OPTIMAL or status == OptimizationStatus.FEASIBLE:
-        print('solution:')
+        result_str += 'Solution:\n'
         for v in model.vars:
             if abs(v.x) > 1e-6: # only printing non-zeros
-                print('{} : {}'.format(v.name, v.x))
+                result_str += '{} : {}\n'.format(v.name, v.x)
+    
+    return result_str

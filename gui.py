@@ -1,11 +1,14 @@
 import os
 import sys
 from PyQt5 import QtWidgets
+import process_run
 
 class Window(QtWidgets.QWidget):
+
     def __init__(self):
         super().__init__()
         self.initUI()
+        #self.filename = ""
         self.setStyleSheet("background-color: lightgrey;")
 
     def initUI(self):
@@ -56,13 +59,13 @@ class Window(QtWidgets.QWidget):
         selected_file = self.dropdown.currentText()
 
         self.text_box.insertPlainText(f'You selected the file: {selected_file}\n\n')
-        with open(selected_file, 'r') as f:
-            contents = f.read()
-            self.text_box.insertPlainText('File contents:\n')
-            self.text_box.insertPlainText(contents)
+        self.text_box.insertPlainText('File contents:\n')
+        self.text_box.insertPlainText(process_run.run_process(selected_file))
+
 
     def dropdown_selected(self, index):
         selected_file = self.dropdown.currentText()
+        self.filename = selected_file
         print('Selected file:', selected_file)
 
 if __name__ == '__main__':
