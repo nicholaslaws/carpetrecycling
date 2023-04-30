@@ -11,7 +11,7 @@
     "Primary Backing Type 1":[
         {
             "Proportion":[".23"],
-            "Material":["M1", "M2", "M3"],
+            "Material":["Material 1", "Material 2", "Material 3", "Material 4", "Material 5"],
             "Recyclability":[".50", ".25", ".75"],
             "ProcessCost":[".75", ".75", ".75"],
             "MarketValue":["1.3", "1.4", "1.1"]
@@ -20,7 +20,7 @@
     "Secondary Backing":[
         {
             "Proportion":[".20"],
-            "Material":["M1", "M2", "M3"],
+            "Material":["Material 1", "Material 2", "Material 3"],
             "Recyclability":[".50", ".25", ".75"],
             "ProcessCost":[".75", ".75", ".75"],
             "MarketValue":["1.3", "1.4", "1.1"]
@@ -29,7 +29,7 @@
     "Adhesive":[
         {
             "Proportion":[".20"],
-            "Material":["Adh1", "Adh2", "Adh3"],
+            "Material":["Adhesive 1", "Adhesive 2", "Adhesive 3"],
             "Recyclability":[".50", ".45", ".65"],
             "ProcessCost":[".10", ".08", ".11"],
             "MarketValue":[".15", ".10", ".12"]

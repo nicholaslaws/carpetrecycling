@@ -1,11 +1,14 @@
 import os
 import sys
 from PyQt5 import QtWidgets
+import process_run
 
 class Window(QtWidgets.QWidget):
+
     def __init__(self):
         super().__init__()
         self.initUI()
+        #self.filename = ""
         self.setStyleSheet("background-color: lightgrey;")
 
     def initUI(self):
@@ -26,7 +29,7 @@ class Window(QtWidgets.QWidget):
         button.clicked.connect(self.button_clicked)
         button.setFixedHeight(buttH)
         button.setFixedWidth(buttL)
-        button.move((windL/4)-(buttL/2), ((windH-buttH)/2)+pad)
+        button.move(int((windL/4)-(buttL/2)), int((windH-buttH)/2)+pad)
         button.setStyleSheet("background-color: lightblue;")
 
         # Create dropdown button
@@ -35,15 +38,15 @@ class Window(QtWidgets.QWidget):
         dropdown.setCurrentIndex(0)
         dropdown.setFixedWidth(buttL-(2*pad))
         dropdown.currentIndexChanged.connect(self.dropdown_selected)
-        dropdown.move(pad+((windL/4)-(buttL/2)), 2*pad)
+        dropdown.move(pad+int((windL/4)-(buttL/2)), 2*pad)
         dropdown.setStyleSheet("background-color: 21,150,150")
         self.dropdown = dropdown
 
         # Create text box
         self.text_box = QtWidgets.QTextEdit(self)
         self.text_box.setFixedHeight(textH)
-        self.text_box.setFixedWidth(textL)
-        self.text_box.move(windL-pad-textL, pad)
+        self.text_box.setFixedWidth(int(textL))
+        self.text_box.move(int(windL-pad-textL), int(pad))
         self.text_box.setStyleSheet("background-color: white")
 
         # Set window properties
@@ -55,13 +58,13 @@ class Window(QtWidgets.QWidget):
         selected_file = self.dropdown.currentText()
 
         self.text_box.insertPlainText(f'You selected the file: {selected_file}\n\n')
-        with open(selected_file, 'r') as f:
-            contents = f.read()
-            self.text_box.insertPlainText('File contents:\n')
-            self.text_box.insertPlainText(contents)
+        self.text_box.insertPlainText('File contents:\n')
+        self.text_box.insertPlainText(process_run.run_process(selected_file))
+
 
     def dropdown_selected(self, index):
         selected_file = self.dropdown.currentText()
+        self.filename = selected_file
         print('Selected file:', selected_file)
 
 if __name__ == '__main__':
