@@ -57,10 +57,12 @@ class Window(QtWidgets.QWidget):
     def button_clicked(self):
         self.text_box.clear()
         selected_file = self.dropdown.currentText()
-
-        self.text_box.insertPlainText(f'You selected the file: {selected_file}\n\n')
-        self.text_box.insertPlainText('File contents:\n')
-        self.text_box.insertPlainText(process_run.run_process(selected_file))
+        if not selected_file == "choose process json File...":
+            self.text_box.insertPlainText(f'You selected the file: {selected_file}\n\n')
+            self.text_box.insertPlainText('File contents:\n')
+            self.text_box.insertPlainText(process_run.run_process(selected_file))
+        else:
+            print('Select a file then press the optimize button')
 
 
     def dropdown_selected(self, index):
