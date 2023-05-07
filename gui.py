@@ -1,3 +1,5 @@
+""" Implement GUI window for the optimization code for ease of use """
+
 import os
 import sys
 from PyQt5 import QtWidgets
@@ -8,7 +10,6 @@ class Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        #self.filename = ""
         self.setStyleSheet("background-color: lightgrey;")
 
     def initUI(self):
@@ -56,9 +57,8 @@ class Window(QtWidgets.QWidget):
     def button_clicked(self):
         self.text_box.clear()
         selected_file = self.dropdown.currentText()
-
-        self.text_box.insertPlainText(f'You selected the file: {selected_file}\n\n')
-        self.text_box.insertPlainText('File contents:\n')
+        # Run the algorithm code
+        self.text_box.insertPlainText(f'Optimizing design in: {selected_file}\n\n')
         self.text_box.insertPlainText(process_run.run_process(selected_file))
 
 

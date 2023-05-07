@@ -37,18 +37,18 @@ def lp_solve(alpha, beta, gamma, layers):
 
     result_str = ""
 
-    # Print optimization results
+    # Return optimization results
     if status == OptimizationStatus.OPTIMAL:
-        #print('optimal solution cost {} found'.format(model.objective_value))
-        result_str += "Optimal solution cost {} found\n".format(model.objective_value)
+        result_str += "Maximum benefit {} found\n".format(model.objective_value)
     elif status == OptimizationStatus.FEASIBLE:
         result_str += 'sol.cost {} found, best possible: {}\n'.format(model.objective_value, model.objective_bound)
     elif status == OptimizationStatus.NO_SOLUTION_FOUND:
         result_str += 'No feasible solution found, lower bound is: {}\n'.format(model.objective_bound)
     if status == OptimizationStatus.OPTIMAL or status == OptimizationStatus.FEASIBLE:
-        result_str += 'Solution:\n'
+        result_str += 'Optimal Material Choices:\n\n'
         for v in model.vars:
             if abs(v.x) > 1e-6: # only printing non-zeros
-                result_str += '{} : {}\n'.format(v.name, v.x)
+                #result_str += '{} : {}\n'.format(v.name, v.x)
+                result_str += '{}\n'.format(v.name)
     
     return result_str

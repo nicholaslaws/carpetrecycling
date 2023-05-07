@@ -8,10 +8,10 @@
             "MarketValue":["1.3", "1.4", "0.7", "0.4"]
         }
     ],
-    "Primary Backing Type 1":[
+    "Primary Backing":[
         {
             "Proportion":[".23"],
-            "Material":["Material 1", "Material 2", "Material 3", "Material 4", "Material 5"],
+            "Material":["PP", "PET", "Nylon 6"],
             "Recyclability":[".50", ".25", ".75"],
             "ProcessCost":[".75", ".75", ".75"],
             "MarketValue":["1.3", "1.4", "1.1"]
@@ -20,13 +20,13 @@
     "Secondary Backing":[
         {
             "Proportion":[".20"],
-            "Material":["Material 1", "Material 2", "Material 3"],
+            "Material":["PP", "PET", "Nylon 6"],
             "Recyclability":[".50", ".25", ".75"],
             "ProcessCost":[".75", ".75", ".75"],
             "MarketValue":["1.3", "1.4", "1.1"]
         }
     ],
-    "Adhesive":[
+    "Fillers":[
         {
             "Proportion":[".20"],
             "Material":["Adhesive 1", "Adhesive 2", "Adhesive 3"],
@@ -35,5 +35,4 @@
             "MarketValue":[".15", ".10", ".12"]
         }
     ]
-
 }
