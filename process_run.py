@@ -4,7 +4,7 @@ from lp import *
 
 
 
-# parse the json file
+# parse the json file specified as `filename`
 def run_process(filename):
     layers = []
     
@@ -27,8 +27,11 @@ def run_process(filename):
 
             index += 1
 
+    # weight attributed to recyclability
     alpha = 90
+    # weight attributed to processing cost
     beta = -40
+    # weight attributed to market value
     gamma = -25
 
     return lp_solve(alpha, beta, gamma, layers)
