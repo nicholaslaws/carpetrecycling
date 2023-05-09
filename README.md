@@ -1,4 +1,10 @@
 # Carpet Optimization Algorithm
+### _Arba Shkreli, Francisco Marquez, Nicholas Laws_
+
+## Notes
+
+The following documentation is an explanation of the prototype implementation of 
+the algorithm presented in our report.
 
 ## Before using:
 - Make sure to have installed the `MIP` Python package
@@ -8,8 +14,8 @@
 - Other dependencies should be covered with a normal Python installation
 
 ## Files
-- `lp.py`: Contains the linear program formulation
 - `objects.py`: Representation of abstraction terminology we use
+- `lp.py`: Contains the linear program formulation
 - `process_run.py`: Runs the linear program solver on a given filename
 - `gui.py`: Implements a simple GUI to run the program
 - `sample_carpet_design1.json`: Sample basic carpet design with parameters specified (numbers in it are not realistic or particularly meaningful)
@@ -23,7 +29,7 @@ Run `python3 gui.py` to interact with the programs
     1. [Mathematical Formulation](#mathematical-formulation)
 3. [Another paragraph](#another-paragraph)
 4. [Extension Possibilities](#extensions)
-    1. [Contact Info](#contact)
+    1. [Contact](#contact)
 
 ## Introduction <a name="introduction"></a>
 As part of our deliverable regarding breaking down the current state of carpet recycling
@@ -36,7 +42,7 @@ We prototyped a simple algorithmic approach to aid in the decisions made in a ca
 While we will describe it as a solution to a specific question, the approach is flexible
 and expandable enough for the complicated and large problem space we are studying.
 
-Our question is as follows:
+The kind of question our algorithm answers is the following:
 
 Given a carpet design defined by its constituent layer types, 
 what materials should be chosen for each layer so that all specified 
@@ -55,74 +61,76 @@ common and productive. It can serve as a tool for both parties to express
 their goals.
 
 1. **Determination of decision factors important to both manufacturers and recyclers.** 
-    These are parameters that either harm or help the overall numerical benefit. For example, recyclability of a carpet given a particular design decision may increase the overall benefit, but manufacturing cost would decrease it.
+    These are parameters that either harm or help the overall numerical benefit. For example, recyclability of a carpet given a particular design decision may increase the overall 
+    benefit, but manufacturing cost would decrease it.
 2. **Carpet design template.** 
     In this step the layers that a carpet is to be constituted by are specified along with the candidate materials possible for each layer. Furthermore, the decision factor quantitative information should also be available for each layer. That is, following the previous example, recyclability of a layer should be known.
-3. **Quantifying all considerations.** 
-    In this step, weights are assigned to the decision factors previously determined, as well as the formulation of any constraints under which either party may be subject.
+3. **Quantifying all decision factors.** 
+    In this step, weights are assigned to the decision factors previously determined, as well 
+    as the formulation of any constraints under which either party may be subject.
 
-### Mathematical Formulation <a name="subparagraph1"></a>
-The model's sets are as follows:
+More information about the underlying mathematical formulation can be found in our report.
 
-$$
-\begin{aligned}
-    L & & \text{set of layers in carpet design} \\
-    M_l & & \text{set of materials that a layer $l \in L$ can be made from} \\
-    M = \bigcap\limits_{l \in L} M_l & & \text{set of all materials to be considered across entire carpet} \\
-\end{aligned}
-\\
-$$
+## Breakdown of Functionality Implementation <a name="paragraph2"></a>
 
-The parameters (which would in practice be determined through conversations and possibly other supporting computational methods) are as follows:
+`objects.py`
 
-$$
-\begin{aligned}
-    r_{l_m} & l \in L, m \in M_l & \text{recyclability of material $m$ in layer $l$} \\
-    c_{l_m} & l \in L, m \in M_l & \text{processing cost of material $m$ in layer $l$} \\
-    v_{l_m} & l \in L, m \in M_l & \text{market value} \\
-    f_l     & l \in L & \text{fraction of carpet a layer $l$ will be} \\
-    p_m     & m \in M & \text{maximum proportion} \\
-    \alpha \in \Re & & \text{weight attributed to recyclability factor} \\
-    \beta \in \Re & & \text{weight attributed to processing cost} \\
-    \gamma \in \Re & & \text{weight attributed to market value} \\
-\end{aligned}
-$$
+To follow an object-oriented paradigm and remove the optimization code's direct 
+interaction with the database files, we defined the objects relevant to our 
+computation.
 
-Our decision variables represent the material choices made for each layer of the proposed carpet design:
+`lp.py`
 
-$$
-\begin{aligned}
-   x_{l_m} & & l \in L, m \in M_l & & \text{ 1 if $m$ is used in $l$, else 0} \\
-\end{aligned}
-\\
-$$
+Using a linear programming package called `MIP`, this file expresses the Binary
+Integer Program formulation outlined in the report. Assumes that inputs will be
+given in the format specified in `objects.py`. The functions specified in this
+file return strings given to the GUI.
 
-The optimization problem we have formulated thusly:
+`process_run.py`
 
-$$
-\begin{equation}
-\begin{aligned}
-    \max_{x_{l_m}} & \sum_{l \in L}\sum_{m \in M_l} (\alpha{r_{l_m}} + \beta{c_{l_m}} + \gamma{v_{l_m}}) x_{l_m} \\
-    \textrm{s.t.} & \sum_{m \in M_l} x_{l_m} = 1, \; \forall \; l \in L & \textrm{enforce one material decision per layer} \\
-    & \sum_{l \in L} f_lx_{l_m} \leq p_m ,        \; \forall \; m \in M & \textrm{do not exceed max proportion of any one material} \\
-\end{aligned}
-\end{equation}
-$$
+Performs parsing of the carpet design file, places the parsed information into the
+format specified by `objects.py` and runs the optimization algorithm. The parameter
+weights are specified and should be changed here.
 
-## Another paragraph <a name="paragraph2"></a>
-The second paragraph text
+`gui.py`
+
+Implements GUI for the previously-specified code. A user can choose from a dropdown
+menu from all the carpet design `.json` files in the same directory, and then run
+the optimization on the 
+
+`sample_carpet_design1.json`
+
+This is an example of how one would format a carpet design file. `.json` files organize 
+data with `key:value` pairs. Each layer is specified with a name, and within there are 
+the fields of interest that are specified. Currently, our model **requires** the fields 
+"Proportion" "Material", "Recyclability", "ProcessCost", and "MarketValue", with those 
+names verbatim to be specified with a list of values.
+
+Note: the "Proportion" list should contain one value, and the proportions across all layers
+should add up to 1, and each respectively be strictly positive.
+
+Furthermore, for the other fields, the same number of elements should be in each list. 
+Corresponding values across fields are determined by their relative order in the list.
+For example, the first value in the "Material" list corresponds to the first value in
+the "Recyclability" list. 
+
+For even more specific details, see the individual files' comments.
 
 ## Extensions <a name="paragraph3"></a>
 Because our code is merely a prototype, we realize that full adoption in an industry 
 setting would require at least the following extensions:
 1. Write code to generate `.json` files for carpet designs, with corresponding GUI
-    - Include functionality to modify current `.json` files so that 
+    - Include functionality to modify current `.json` files so that no formatting
+    errors are introduced by users
 2. Make the optimization and parser more generalizable for additional or different
 kinds of decision factors that manufacturers and recyclers may be considering
+    - Some aspects are essentially hard-coded that we would like to make more
+    dynamic and easier to change.
 
 For now, we keep this as a proof-of-concept as a feasible way to facilitate more
 productive and frequent conversations between recyclers and manufacturers.
 
-### Contact
-If you wish for extensions to be implemented, or have additional questions,
-feel free to contact: (include names and emails if you'd like)
+## Contact
+
+Thanks for your interest! For questions or code issues, feel free to start a thread 
+in this repository.
